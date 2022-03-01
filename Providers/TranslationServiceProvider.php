@@ -69,6 +69,7 @@ class TranslationServiceProvider extends ServiceProvider
 
     $this->mergeConfigFrom($this->getModuleConfigFilePath('translation', 'permissions'), "asgard.translation.permissions");
     $this->mergeConfigFrom($this->getModuleConfigFilePath('translation', 'cmsPages'), "asgard.translation.cmsPages");
+    $this->mergeConfigFrom($this->getModuleConfigFilePath('translation', 'cmsSidebar'), "asgard.translation.cmsSidebar");
 
     $this->registerValidators();
     $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
