@@ -13,6 +13,7 @@ class FileTranslationRepository implements FileTranslationRepositoryInterface
      * @var Filesystem
      */
     private $finder;
+
     /**
      * @var Loader
      */
@@ -26,7 +27,6 @@ class FileTranslationRepository implements FileTranslationRepositoryInterface
 
     /**
      * Get all the translations for all modules on disk
-     * @return array
      */
     public function all()
     {
@@ -51,12 +51,10 @@ class FileTranslationRepository implements FileTranslationRepositoryInterface
     /**
      * Get all of the names of the Translations files from an array of Paths.
      * Returns [ 'translationkeyprefix' => 'filepath' ]
-     * @param array $paths
-     * @return array
      */
     protected function getTranslationFilenamesFromPaths(array $paths)
     {
-        $files   = [];
+        $files = [];
         $locales = config('laravellocalization.supportedLocales');
 
         foreach ($paths as $hint => $path) {
@@ -65,9 +63,9 @@ class FileTranslationRepository implements FileTranslationRepositoryInterface
 
                 if ($glob) {
                     foreach ($glob as $file) {
-                        $category = str_replace(["$path/", ".php", "{$locale}/"], "", $file);
-                        $category = str_replace("/", ".", $category);
-                        $category = !is_int($hint) ? "{$hint}::{$category}" : $category;
+                        $category = str_replace(["$path/", '.php', "{$locale}/"], '', $file);
+                        $category = str_replace('/', '.', $category);
+                        $category = ! is_int($hint) ? "{$hint}::{$category}" : $category;
 
                         $files[$locale][$category] = $file;
                     }
