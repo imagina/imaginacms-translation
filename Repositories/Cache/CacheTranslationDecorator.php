@@ -15,11 +15,6 @@ class CacheTranslationDecorator extends BaseCacheDecorator implements Translatio
         $this->repository = $recipe;
     }
 
-    /**
-     * @param string $key
-     * @param string $locale
-     * @return string
-     */
     public function findByKeyAndLocale($key, $locale = null)
     {
         $cleanKey = $this->cleanKey($key);
@@ -68,8 +63,7 @@ class CacheTranslationDecorator extends BaseCacheDecorator implements Translatio
 
     /**
      * Update the given translation key with the given data
-     * @param string $key
-     * @param array $data
+     *
      * @return mixed
      */
     public function updateFromImport($key, array $data)
@@ -81,9 +75,6 @@ class CacheTranslationDecorator extends BaseCacheDecorator implements Translatio
 
     /**
      * Set the given value on the given TranslationTranslation
-     * @param TranslationTranslation $translationTranslation
-     * @param string $value
-     * @return void
      */
     public function updateTranslationToValue(TranslationTranslation $translationTranslation, $value)
     {
@@ -94,12 +85,12 @@ class CacheTranslationDecorator extends BaseCacheDecorator implements Translatio
 
     /**
      * Clean a Cache Key so it is safe for use
-     * @param string $key   Potentially unsafe key
-     * @return string
+     *
+     * @param  string  $key   Potentially unsafe key
      */
-    protected function cleanKey($key)
+    protected function cleanKey(string $key)
     {
-        return str_replace(" ", "--", $key);
+        return str_replace(' ', '--', $key);
     }
 
     public function getTranslationsForGroupAndNamespace($locale, $group, $namespace)
@@ -116,6 +107,7 @@ class CacheTranslationDecorator extends BaseCacheDecorator implements Translatio
     public function deleteBy($criteria, $params = false)
     {
         app('cache')->driver('translations')->flush();
+
         return $this->repository->deleteBy($criteria, $params);
     }
 }

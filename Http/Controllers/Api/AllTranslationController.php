@@ -2,6 +2,7 @@
 
 namespace Modules\Translation\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
 class AllTranslationController extends Controller
