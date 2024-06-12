@@ -3,6 +3,7 @@
 namespace Modules\Translation\Services;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Modules\Translation\ValueObjects\TranslationGroup;
 
 class TranslationsWriter
@@ -11,6 +12,7 @@ class TranslationsWriter
      * @var Filesystem
      */
     private $finder;
+
     /**
      * @var TranslationsService
      */
@@ -34,8 +36,8 @@ class TranslationsWriter
         foreach ($tree as $locale => $groups) {
             foreach ($groups as $moduleName => $fileGroup) {
                 foreach ($fileGroup as $file => $data) {
-                    $path = $this->getTranslationsDirectory() . $moduleName . '/' . $locale . '/' . $file . '.php';
-                    $output = "<?php\n\nreturn " . var_export($data, true) . ";\n";
+                    $path = $this->getTranslationsDirectory().$moduleName.'/'.$locale.'/'.$file.'.php';
+                    $output = "<?php\n\nreturn ".var_export($data, true).";\n";
                     $this->finder->put($path, $output);
                 }
             }
@@ -44,40 +46,31 @@ class TranslationsWriter
 
     /**
      * Get the module name from the given key
-     * @param string $key
-     * @return string
      */
-    private function getModuleNameFrom($key)
+    private function getModuleNameFrom(string $key): string
     {
         return substr($key, 0, strpos($key, '::'));
     }
 
-    /**
-     * @return string
-     */
-    private function getTranslationsDirectory()
+    private function getTranslationsDirectory(): string
     {
-        return __DIR__ . '/../Resources/lang/';
+        return __DIR__.'/../Resources/lang/';
     }
 
     /**
      * Get the file name from the given key
-     * @param string $key
-     * @return string
      */
-    private function getFileNameFrom($key)
+    private function getFileNameFrom(string $key): string
     {
-        $key = str_replace($this->getModuleNameFrom($key) . '::', '', $key);
+        $key = str_replace($this->getModuleNameFrom($key).'::', '', $key);
 
         return substr($key, 0, strpos($key, '.'));
     }
 
     /**
      * Make a usable array
-     * @param TranslationGroup $translations
-     * @return array
      */
-    private function makeTree(TranslationGroup $translations)
+    private function makeTree(TranslationGroup $translations): array
     {
         $tree = [];
 
@@ -85,9 +78,9 @@ class TranslationsWriter
             foreach ($translation as $key => $trans) {
                 $moduleName = $this->getModuleNameFrom($key);
                 $fileName = $this->getFileNameFrom($key);
-                $key = str_replace($moduleName . '::' . $fileName . '.', '', $key);
+                $key = str_replace($moduleName.'::'.$fileName.'.', '', $key);
 
-                array_set($tree[$locale][$moduleName][$fileName], $key, $trans);
+                Arr::set($tree[$locale][$moduleName][$fileName], $key, $trans);
             }
         }
 

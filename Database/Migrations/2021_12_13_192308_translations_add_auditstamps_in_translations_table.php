@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -10,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('translation__translations', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->string('key');
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('translation__translations', function (Blueprint $table) {
+            $table->auditStamps();
         });
     }
 
@@ -24,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::drop('translation__translations');
+        //
     }
 };
